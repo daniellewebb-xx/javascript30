@@ -3,8 +3,85 @@
 <head>
   <meta charset="UTF-8">
   <title>JavaScript DrumKit</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <!-- data-key values found via http://keycode.info/ -->
+  <div class="keys">
+    <div data-key="65" class="key">
+      <kbd>A</kbd>
+      <span class="sound">clap</span>
+    </div>
+    <div data-key="83" class="key">
+      <kbd>S</kbd>
+      <span class="sound">hihat</span>
+    </div>
+    <div data-key="68" class="key">
+      <kbd>D</kbd>
+      <span class="sound">kick</span>
+    </div>
+    <div data-key="70" class="key">
+      <kbd>F</kbd>
+      <span class="sound">openhat</span>
+    </div>
+    <div data-key="71" class="key">
+      <kbd>G</kbd>
+      <span class="sound">boom</span>
+    </div>
+    <div data-key="72" class="key">
+      <kbd>H</kbd>
+      <span class="sound">ride</span>
+    </div>
+    <div data-key="74" class="key">
+      <kbd>J</kbd>
+      <span class="sound">snare</span>
+    </div>
+    <div data-key="75" class="key">
+      <kbd>K</kbd>
+      <span class="sound">tom</span>
+    </div>
+    <div data-key="76" class="key">
+      <kbd>L</kbd>
+      <span class="sound">tink</span>
+    </div>
+  </div>
 
+  <audio data-key="65" src="sounds/clap.wav"></audio>
+  <audio data-key="83" src="sounds/hihat.wav"></audio>
+  <audio data-key="68" src="sounds/kick.wav"></audio>
+  <audio data-key="70" src="sounds/openhat.wav"></audio>
+  <audio data-key="71" src="sounds/boom.wav"></audio>
+  <audio data-key="72" src="sounds/ride.wav"></audio>
+  <audio data-key="74" src="sounds/snare.wav"></audio>
+  <audio data-key="75" src="sounds/tom.wav"></audio>
+  <audio data-key="76" src="sounds/tink.wav"></audio>
+
+  <script>
+    function playSound(e){
+        // where 'e' is the object being returned when a key is hit and keyCode is the property we're interested in
+        var keyCode = e.keyCode;
+        var audio = document.querySelector('audio[data-key="' + keyCode +'"]');
+        var key = document.querySelector('.key[data-key="' + keyCode +'"]');
+
+        if(!audio) return; // stop the fuction from running altogether
+        audio.currentTime = 0; // rewind audio to the start so it will start over no matter how fast you're pressing keys
+        audio.play();
+        key.classList.add('playing');
+    }
+
+    function removeTransition(e){
+      if (e.propertyName != 'transform') return; //skip this function if it's not a transform property
+      console.log(e.propertyName);
+      this.classList.remove('playing');
+    }
+
+    var keys = document.querySelectorAll('.key');
+    for (var i = 0; i < keys.length; i++) {
+      key = keys[i]
+      key.addEventListener('transitionend', removeTransition);
+    }
+    // Listen for the keydown event, ie a key being pressed
+    window.addEventListener('keydown', playSound);
+  </script>
 </body>
 </html>
