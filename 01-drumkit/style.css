@@ -9,6 +9,12 @@ body,html {
   font-family: sans-serif;
 }
 
+.drumkit-container {
+  display: none;
+  width: 500px;
+  margin: 0 auto;
+}
+
 .keys {
   display: flex;
   flex: 1;
